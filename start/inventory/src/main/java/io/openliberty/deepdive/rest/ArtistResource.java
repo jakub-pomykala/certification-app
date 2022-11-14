@@ -1,15 +1,3 @@
-// tag::copyright[]
-/*******************************************************************************
- * Copyright (c) 2017, 2022 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     IBM Corporation - Initial implementation
- *******************************************************************************/
-// end::copyright[]
 package io.openliberty.deepdive.rest;
 
 import io.openliberty.deepdive.rest.model.SystemData;
@@ -21,12 +9,15 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponseSchema;
+import org.eclipse.microprofile.metrics.MetricUnits;
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Gauge;
+import org.eclipse.microprofile.metrics.annotation.Timed;
+import org.eclipse.microprofile.metrics.annotation.SimplyTimed;
 
 @ApplicationScoped
-@Path("")
+@Path("systems")
 public class ArtistResource {
-
-
 
     @GET
     @Path("/")

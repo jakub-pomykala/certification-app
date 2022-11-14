@@ -8,6 +8,7 @@
         <feature>restfulWS-3.0</feature>
         <feature>jsonb-2.0</feature>
         <feature>jsonp-2.0</feature>
+        <feature>mpMetrics-4.0</feature>
     </featureManager>
 
     <!-- To access this server from a remote client,
@@ -18,7 +19,8 @@
                   host="*" />
 
     <!-- Automatically expand WAR files and EAR files -->
-    <applicationManager autoExpand="true"/>
+    <applicationManager autoExpand="true" />
+    <quickStartSecurity userName="admin" userPassword="adminpwd"/>
 
     <!-- Configures the application on a specified context root -->
     <webApplication location="certification-app.war" contextRoot="${app.context.root}"/>

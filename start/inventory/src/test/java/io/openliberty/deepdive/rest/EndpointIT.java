@@ -47,7 +47,7 @@ public class EndpointIT {
         // end::clientSetup[]
 
         // tag::target[]
-        WebTarget target = client.target(url + "system/properties");
+        WebTarget target = client.target(url + "artists/properties");
         // end::target[]
         // tag::requestget[]
         Response response;

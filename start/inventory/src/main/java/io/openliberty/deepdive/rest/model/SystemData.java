@@ -3,7 +3,7 @@ package io.openliberty.deepdive.rest.model;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 @Schema(name = "SystemData",
-        description = "POJO that represents a single inventory entry.")
+        description = "POJO that represents a single Artists entry.")
 public class SystemData {
 
     private int id;

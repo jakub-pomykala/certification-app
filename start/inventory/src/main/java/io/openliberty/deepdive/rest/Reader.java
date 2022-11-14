@@ -22,7 +22,7 @@ import jakarta.json.JsonArray;
 public class Reader {
 
     public static JsonArray getArtists() {
-        final String jsonFile = "/Users/jakub/Desktop/new-new/start/inventory/src/main/resources/artists.json";
+        final String jsonFile = "/Users/jakub/Desktop/certification-app/start/inventory/src/main/resources/artists.json";
         try {
             InputStream fis;
             fis = new FileInputStream(jsonFile);

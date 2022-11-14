@@ -44,6 +44,7 @@ public class HealthITUtil {
 
     public static String getActualState(String service, JsonArray servicesStates) {
         String state = "";
+        System.out.println(servicesStates);
         for (Object obj : servicesStates) {
             if (obj instanceof JsonObject) {
                 if (service.equals(((JsonObject) obj).getString("name"))) {
@@ -52,32 +53,6 @@ public class HealthITUtil {
             }
         }
         return state;
-    }
-
-    public static void changeInventoryProperty(String oldValue, String newValue) {
-        try {
-            String fileName = System.getProperty("user.dir").split("target")[0]
-                    + "/resources/CustomConfigSource.json";
-            BufferedReader reader = new BufferedReader(new FileReader(new File(fileName)));
-            String line = "";
-            String oldContent = "";
-            String newContent = "";
-            while ((line = reader.readLine()) != null) {
-                oldContent += line + "\r\n";
-            }
-            reader.close();
-            newContent = oldContent.replaceAll(oldValue, newValue);
-            FileWriter writer = new FileWriter(fileName);
-            writer.write(newContent);
-            writer.close();
-            Thread.sleep(600);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void cleanUp() {
-        changeInventoryProperty(INV_MAINTENANCE_TRUE, INV_MAINTENANCE_FALSE);
     }
 
 }

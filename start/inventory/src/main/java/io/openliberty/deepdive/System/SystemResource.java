@@ -1,23 +1,18 @@
-package io.openliberty.deepdive.rest;
+package io.openliberty.deepdive.rest.system;
 
 import java.util.Properties;
-
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-// tag::path[]
+@RequestScoped
 @Path("properties")
-// end::path[]
-public class PropertiesResource {
+public class SystemResource {
 
-    // tag::get[]
     @GET
-    // end::get[]
-    // tag::produces[]
     @Produces(MediaType.APPLICATION_JSON)
-    // end::produces[]
     public Properties getProperties() {
         return System.getProperties();
     }
