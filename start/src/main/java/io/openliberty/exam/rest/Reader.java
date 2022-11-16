@@ -15,18 +15,26 @@ package io.openliberty.exam.rest;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
 
 public class Reader {
 
-    public static JsonArray getArtists() {
+    private static List<JsonObject> listOfArtists = Collections.synchronizedList(new ArrayList<>());
+
+    public static List<JsonObject> getArtists() {
         final String jsonFile = "/Users/jakub/Desktop/certification-app/start/src/main/resources/artists.json";
         try {
             InputStream fis;
             fis = new FileInputStream(jsonFile);
-            return Json.createReader(fis).readArray();
+            JsonObject artist = Json.createReader(fis).readObject();
+            listOfArtists.add(artist);
+            return listOfArtists;
         } catch (FileNotFoundException e) {
             System.err.println("File does not exist: " + jsonFile);
             return null;

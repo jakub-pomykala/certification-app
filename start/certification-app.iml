@@ -16,7 +16,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: jakarta.inject:jakarta.inject-api:2.0.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: jakarta.ws.rs:jakarta.ws.rs-api:3.0.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: jakarta.json.bind:jakarta.json.bind-api:2.0.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: jakarta.json:jakarta.json-api:2.0.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: jakarta.annotation:jakarta.annotation-api:2.0.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.eclipse.microprofile.config:microprofile-config-api:3.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.eclipse.microprofile.fault-tolerance:microprofile-fault-tolerance-api:4.0" level="project" />
@@ -54,5 +53,6 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.eclipse:yasson:2.0.4" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.glassfish:jakarta.json:module:2.0.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.glassfish:jakarta.json:2.0.1" level="project" />
+    <orderEntry type="library" name="Maven: jakarta.json:jakarta.json-api:2.0.0" level="project" />
   </component>
 </module>

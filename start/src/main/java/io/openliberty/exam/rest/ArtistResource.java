@@ -2,22 +2,24 @@ package io.openliberty.exam.rest;
 
 import io.openliberty.exam.rest.model.SystemData;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.json.JsonArray;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.json.JsonObject;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponseSchema;
-import org.eclipse.microprofile.metrics.MetricUnits;
-import org.eclipse.microprofile.metrics.annotation.Counted;
-import org.eclipse.microprofile.metrics.annotation.Gauge;
-import org.eclipse.microprofile.metrics.annotation.Timed;
-import org.eclipse.microprofile.metrics.annotation.SimplyTimed;
+
+import java.util.List;
+
 
 @ApplicationScoped
 @Path("systems")
 public class ArtistResource {
+
+    @Inject
+    Artists artists;
 
     @GET
     @Path("/")
@@ -29,7 +31,21 @@ public class ArtistResource {
             summary = "Display artists.",
             description = "Returns the currently stored artists in the artists.json.",
             operationId = "displayArtists")
-    public JsonArray getArtists() {
-        return Reader.getArtists();
+    public List<JsonObject> getArtists() {
+        return artists.getListOfArtists();
+    }
+
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addArtist(JsonObject artist) {
+        artists.addArtist(artist);
+        System.out.println(artist);
+        return success(" was added.");
+    }
+
+    private Response success(String message) {
+        return Response.ok("{ \"ok\" : \"" + message + "\" }").build();
     }
 }
