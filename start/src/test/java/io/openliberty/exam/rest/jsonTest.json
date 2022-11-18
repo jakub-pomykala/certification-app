@@ -1,0 +1,22 @@
+[{
+  "id": "61",
+  "name" : "axis",
+  "genres": "classical",
+  "albums" : [
+    {
+      "title" : "album_one",
+      "artist" : "axis",
+      "ntracks" : 9
+    },
+    {
+      "title" : "album_two",
+      "artist" : "axis",
+      "ntracks" : 8
+    },
+    {
+      "title" : "album_three",
+      "artist" : "axis",
+      "ntracks" : 11
+    }
+  ]
+}]

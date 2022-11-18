@@ -4,7 +4,6 @@ import io.openliberty.exam.rest.model.SystemData;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.json.JsonArray;
-import jakarta.json.JsonObject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -30,22 +29,26 @@ public class ArtistResource {
     @Operation(
             summary = "Display artists.",
             description = "Returns the currently stored artists in the artists.json.",
-            operationId = "displayArtists")
-    public List<JsonObject> getArtists() {
+            operationId = "getArtists")
+    public List<JsonArray> getArtists() {
         return artists.getListOfArtists();
     }
 
 
     @POST
+    @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addArtist(JsonObject artist) {
+    @APIResponseSchema(value = SystemData.class,
+            responseDescription = "Add a new artists to the list of artists",
+            responseCode = "200")
+    @Operation(
+            summary = "Add a new artist.",
+            description = "Adds a new artist to the list of artists",
+            operationId = "addArtist")
+    public Response addArtist(JsonArray artist) {
         artists.addArtist(artist);
-        System.out.println(artist);
-        return success(" was added.");
-    }
-
-    private Response success(String message) {
-        return Response.ok("{ \"ok\" : \"" + message + "\" }").build();
+        System.out.println("new artist added: " + artist);
+        return Response.ok("{ \"ok\" : \"" + artist + " was added." + "\" }").build();
     }
 }

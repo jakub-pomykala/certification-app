@@ -25,14 +25,14 @@ import jakarta.json.JsonObject;
 
 public class Reader {
 
-    private static List<JsonObject> listOfArtists = Collections.synchronizedList(new ArrayList<>());
+    private static List<JsonArray> listOfArtists = Collections.synchronizedList(new ArrayList<>());
 
-    public static List<JsonObject> getArtists() {
+    public static List<JsonArray> getArtists() {
         final String jsonFile = "/Users/jakub/Desktop/certification-app/start/src/main/resources/artists.json";
         try {
             InputStream fis;
             fis = new FileInputStream(jsonFile);
-            JsonObject artist = Json.createReader(fis).readObject();
+            JsonArray artist = Json.createReader(fis).readArray();
             listOfArtists.add(artist);
             return listOfArtists;
         } catch (FileNotFoundException e) {

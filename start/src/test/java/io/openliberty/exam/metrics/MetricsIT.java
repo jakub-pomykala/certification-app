@@ -11,7 +11,7 @@
  *******************************************************************************/
 // end::copyright[]
 // tag::MetricsTest[]
-package it.io.openliberty.guides.metrics;
+package io.openliberty.exam.metrics;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

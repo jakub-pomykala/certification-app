@@ -12,20 +12,22 @@ import java.util.List;
 @ApplicationScoped
 public class Artists {
 
-    private List<JsonObject> listOfArtists = Collections.synchronizedList(new ArrayList<>());
+    private List<JsonArray> listOfArtists = Collections.synchronizedList(new ArrayList<>());
 
-    public List<JsonObject> getListOfArtists() {
-        if (listOfArtists.isEmpty()) {
-            for (JsonValue s : Reader.getArtists()) {
-                listOfArtists.add((JsonObject) s);
+    int counter = 0;
+
+    public List<JsonArray> getListOfArtists() {
+        if (listOfArtists.isEmpty() || counter != 0) {
+            for (JsonArray s : Reader.getArtists()) {
+                listOfArtists.add(s);
             }
         }
         return listOfArtists;
     }
 
-    public JsonObject addArtist(JsonObject artist) {
+    public JsonArray addArtist(JsonArray artist) {
         listOfArtists.add(artist);
-
+        counter++;
         return artist;
     }
 }

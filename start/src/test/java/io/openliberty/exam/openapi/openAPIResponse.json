@@ -1,0 +1,55 @@
+---
+openapi: 3.0.3
+info:
+title: Generated API
+version: "1.0"
+servers:
+- url: http://localhost:9080
+- url: https://localhost:9443
+paths:
+/artists/properties:
+get:
+responses:
+"200":
+description: OK
+content:
+application/json:
+schema:
+type: object
+/artists/systems:
+get:
+summary: Display artists.
+description: Returns the currently stored artists in the artists.json.
+operationId: getArtists
+responses:
+"200":
+description: A list of all the artists and their information in the artists.json.
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/SystemData'
+/artists/systems/add:
+post:
+summary: Add a new artist.
+description: Adds a new artist to the list of artists
+operationId: addArtist
+requestBody:
+content:
+application/json:
+schema:
+type: array
+responses:
+"200":
+description: Add a new artists to the list of artists
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/SystemData'
+components:
+schemas:
+SystemData:
+type: object
+properties:
+id:
+format: int32
+type: integer
