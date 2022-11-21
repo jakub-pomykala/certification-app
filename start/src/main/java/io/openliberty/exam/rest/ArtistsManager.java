@@ -30,6 +30,7 @@ import io.openliberty.exam.rest.model.SystemData;
 public class ArtistsManager {
 
     private List<SystemData> systems = Collections.synchronizedList(new ArrayList<>());
+
         @Timed(name = "ArtistsProcessingTime",
                                     tags = {"method=get"},
                                     absolute = true,
@@ -38,10 +39,10 @@ public class ArtistsManager {
         return null;
     }
     
-            @SimplyTimed(name = "ArtistsAddingTime",
-                                    absolute = true,
-                                    description = "Time needed to add system properties to the Artists")
-                public void add(String hostname, Properties systemProps) {
+    @SimplyTimed(name = "ArtistsAddingTime",
+                            absolute = true,
+                            description = "Time needed to add system properties to the Artists")
+    public void add(String hostname, Properties systemProps) {
         Properties props = new Properties();
         props.setProperty("os.name", systemProps.getProperty("os.name"));
         props.setProperty("user.name", systemProps.getProperty("user.name"));
