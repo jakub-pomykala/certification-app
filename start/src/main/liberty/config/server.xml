@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <server description="certification">
 
     <featureManager>
@@ -10,12 +10,15 @@
         <feature>restfulWS-3.0</feature>
     </featureManager>
 
-    <httpEndpoint host="*" httpPort="${default.http.port}" httpsPort="${default.https.port}" id="defaultHttpEndpoint"/>
+    <httpEndpoint id="defaultHttpEndpoint"
+                  httpPort="${default.http.port}"
+                  httpsPort="${default.https.port}"
+                  host="*" />
 
     <applicationManager autoExpand="true"/>
     <quickStartSecurity userName="admin" userPassword="adminpwd"/>
 
-    <webApplication contextRoot="${app.context.root}" location="certification-app.war"/>
+    <webApplication location="certification-app.war" contextRoot="${app.context.root}"/>
 
     <ssl id="defaultSSLConfig" trustDefaultCerts="true"/>
 </server>
