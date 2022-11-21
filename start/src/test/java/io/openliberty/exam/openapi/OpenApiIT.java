@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2022 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - Initial implementation
+ *******************************************************************************/
 package io.openliberty.exam.openapi;
 
 import io.restassured.RestAssured;
@@ -25,32 +35,24 @@ public class OpenApiIT {
 
     @Test
     public void testOpenAPI() throws FileNotFoundException {
-        // tag::systemProperties[]
-        String port = System.getProperty("http.port");
+                String port = System.getProperty("http.port");
         String context = System.getProperty("context.root");
-        // end::systemProperties[]
-        String url = "";
+                String url = "";
         if (context.equals("/") || context.isEmpty()) {
             url = "http://localhost:" + port + "/";
         } else {
-            url = "http://localhost:" + port + "/" + context + "/";
+                url = "http://localhost:" + port + context + "/";
         }
 
-        // tag::clientSetup[]
-        Client client = ClientBuilder.newClient();
-        // end::clientSetup[]
-
-        // tag::target[]
-        WebTarget target = client.target(url + "openapi");
-        // end::target[]
-        // tag::requestget[]
-        Response response;
+                Client client = ClientBuilder.newClient();
+        
+                WebTarget target = client.target(url + "openapi");
+                        Response response;
         response = target.request().get();
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus(),
                 "Incorrect response code from " + url);
-        // end::assertequals[]
-
+        
 //        String output = response.readEntity(String.class);
 //
 //        final String file = "/Users/jakub/Desktop/certification-app/start/src/test/java/io/openliberty/exam/openapi/openAPIResponse.json";

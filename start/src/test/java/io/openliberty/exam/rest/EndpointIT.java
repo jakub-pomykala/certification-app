@@ -1,6 +1,5 @@
-// tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2022 IBM Corporation and others.
+ * Copyright (c) 2022 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,7 +8,6 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
-// end::copyright[]
 package io.openliberty.exam.rest;
 
 import jakarta.json.Json;
@@ -24,7 +22,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.Test;
 
-import javax.print.attribute.standard.Media;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -34,71 +31,49 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EndpointIT {
     private static final Jsonb JSONB = JsonbBuilder.create();
-    // tag::test[]
-    @Test
-    // end::test[]
-    public void testGetProperties() {
-        // tag::systemProperties[]
-        String port = System.getProperty("http.port");
+        @Test
+        public void testGetProperties() {
+                String port = System.getProperty("http.port");
         String context = System.getProperty("context.root");
-        // end::systemProperties[]
-        String url = "";
+                String url = "";
         if (context.equals("/") || context.isEmpty()) {
             url = "http://localhost:" + port + "/";
         } else {
-            url = "http://localhost:" + port + "/" + context + "/";
+            url = "http://localhost:" + port + context + "/";
         }
 
-        // tag::clientSetup[]
-        Client client = ClientBuilder.newClient();
-        // end::clientSetup[]
-
-        // tag::target[]
-        WebTarget target = client.target(url + "artists/properties");
-        // end::target[]
-        // tag::requestget[]
-        Response response;
+                Client client = ClientBuilder.newClient();
+        
+                WebTarget target = client.target(url + "artists/properties");
+                        Response response;
         response = target.request().get();
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus(),
                 "Incorrect response code from " + url);
-        // end::assertequals[]
-
-        // tag::body[]
-        String json = response.readEntity(String.class);
+        
+                String json = response.readEntity(String.class);
         Properties sysProps = JSONB.fromJson(json, Properties.class);
 
-        // tag::assertosname[]
-        assertEquals(System.getProperty("os.name"), sysProps.getProperty("os.name"),
+                assertEquals(System.getProperty("os.name"), sysProps.getProperty("os.name"),
                 "The system property for the local and remote JVM should match");
-        // end::assertosname[]
-        // end::body[]
-        response.close();
+                        response.close();
         client.close();
     }
 
     @Test
-    // end::test[]
-    public void testPost() throws FileNotFoundException {
-        // tag::systemProperties[]
-        String port = System.getProperty("http.port");
+        public void testPost() throws FileNotFoundException {
+                String port = System.getProperty("http.port");
         String context = System.getProperty("context.root");
-        // end::systemProperties[]
-        String url = "";
+                String url = "";
         if (context.equals("/") || context.isEmpty()) {
             url = "http://localhost:" + port + "/";
         } else {
-            url = "http://localhost:" + port + "/" + context + "/";
+            url = "http://localhost:" + port  + context + "/";
         }
 
-        // tag::clientSetup[]
-        Client client = ClientBuilder.newClient();
-        // end::clientSetup[]
-
-        // tag::target[]
-        WebTarget target = client.target(url + "artists/systems/add");
-        // end::target[]
-        // tag::requestget[]
-
+                Client client = ClientBuilder.newClient();
+        
+                WebTarget target = client.target(url + "artists/systems/add");
+                
         final String jsonFile = "/Users/jakub/Desktop/certification-app/start/src/test/java/io/openliberty/exam/rest/jsonTest.json";
 
         InputStream fis;

@@ -1,6 +1,5 @@
-// tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2022 IBM Corporation and others.
+ * Copyright (c) 2022 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,8 +8,6 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
-// end::copyright[]
-// tag::MetricsTest[]
 package io.openliberty.exam.metrics;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -42,9 +39,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-// tag::TestMethodOrder[]
 @TestMethodOrder(OrderAnnotation.class)
-// end::TestMethodOrder[]
 public class MetricsIT {
 
     private static final String KEYSTORE_PATH = System.getProperty("user.dir")
@@ -64,22 +59,17 @@ public class MetricsIT {
     private Client client;
 
     private final String INVENTORY_HOSTS = "artists/systems";
-    private final String INVENTORY_HOSTNAME = "artists/systems/localhost";
     private final String METRICS_APPLICATION = "metrics";
 
-    // tag::BeforeAll[]
-    @BeforeAll
-    // end::BeforeAll[]
-    // tag::oneTimeSetup[]
-    public static void oneTimeSetup() throws Exception {
+        @BeforeAll
+            public static void oneTimeSetup() throws Exception {
         httpPort = System.getProperty("http.port");
         httpsPort = System.getProperty("https.port");
         baseHttpUrl = "http://localhost:9080/";
         baseHttpsUrl = "https://localhost:9443/";
         loadKeystore();
     }
-    // end::oneTimeSetup[]
-
+    
     private static void loadKeystore() throws Exception {
         Properties sysEnv = new Properties();
         sysEnv.load(new FileInputStream(SYSTEM_ENV_PATH));
@@ -88,32 +78,19 @@ public class MetricsIT {
         keystore.load(new FileInputStream(KEYSTORE_PATH), password);
     }
 
-    // tag::BeforeEach[]
-    @BeforeEach
-    // end::BeforeEach[]
-    // tag::setup[]
-    public void setup() {
+        @BeforeEach
+            public void setup() {
         client = ClientBuilder.newBuilder().trustStore(keystore).build();
     }
-    // end::setup[]
-
-    // tag::AfterEach[]
-    @AfterEach
-    // end::AfterEach[]
-    // tag::teardown[]
-    public void teardown() {
+    
+        @AfterEach
+            public void teardown() {
         client.close();
     }
-    // end::teardown[]
-
-    // tag::Test1[]
-    @Test
-    // end::Test1[]
-    // tag::Order1[]
-    @Order(1)
-    // end::Order1[]
-    // tag::testPropertiesRequestTimeMetric[]
-    public void testPropertiesRequestTimeMetric() {
+    
+        @Test
+            @Order(1)
+            public void testPropertiesRequestTimeMetric() {
         connectToEndpoint(baseHttpUrl + INVENTORY_HOSTS);
         metrics = getMetrics();
         for (String metric : metrics) {
@@ -124,16 +101,10 @@ public class MetricsIT {
             }
         }
     }
-    // end::testPropertiesRequestTimeMetric[]
-
-    // tag::Test2[]
-    @Test
-    // end::Test2[]
-    // tag::Order2[]
-    @Order(2)
-    // end::Order2[]
-    // tag::testInventoryAccessCountMetric[]
-    public void testInventoryAccessCountMetric() {
+    
+        @Test
+            @Order(2)
+            public void testInventoryAccessCountMetric() {
         metrics = getMetrics();
         Map<String, Integer> accessCountsBefore = getIntMetrics(metrics,
                 "application_inventoryAccessCount_total");
@@ -147,16 +118,10 @@ public class MetricsIT {
             assertTrue(accessCountAfter > accessCountBefore);
         }
     }
-    // end::testInventoryAccessCountMetric[]
-
-    // tag::Test3[]
-    @Test
-    // end::Test3[]
-    // tag::Order3[]
-    @Order(3)
-    // end::Order3[]
-    // tag::testInventorySizeGaugeMetric[]
-    public void testInventorySizeGaugeMetric() {
+    
+        @Test
+            @Order(3)
+            public void testInventorySizeGaugeMetric() {
         metrics = getMetrics();
         Map<String, Integer> inventorySizeGauges = getIntMetrics(metrics,
                 "application_inventorySizeGauge");
@@ -164,9 +129,7 @@ public class MetricsIT {
             assertTrue(1 <= value);
         }
     }
-    // end::testInventorySizeGaugeMetric[]
-    // end::testPropertiesAddSimplyTimeMetric[]
-
+        
     public void connectToEndpoint(String url) {
         Response response = this.getResponse(url);
         this.assertResponse(url, response);
@@ -223,4 +186,3 @@ public class MetricsIT {
         return output;
     }
 }
-// end::MetricsTest[]

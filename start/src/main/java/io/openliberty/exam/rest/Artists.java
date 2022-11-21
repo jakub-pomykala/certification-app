@@ -2,9 +2,6 @@ package io.openliberty.exam.rest;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.json.JsonArray;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonValue;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

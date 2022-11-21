@@ -13,15 +13,9 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <!-- Liberty configuration -->
-        <!-- tag::defaultHttpPort[] -->
         <liberty.var.default.http.port>9080</liberty.var.default.http.port>
-        <!-- end::defaultHttpPort[] -->
-        <!-- tag::defaultHttpsPort[] -->
         <liberty.var.default.https.port>9443</liberty.var.default.https.port>
-        <!-- end::defaultHttpsPort[] -->
-        <!-- tag::appContextRoot[] -->
         <liberty.var.app.context.root>/</liberty.var.app.context.root>
-        <!-- end::appContextRoot[] -->
     </properties>
 
     <dependencies>
@@ -75,11 +69,6 @@
             <version>3.3.0</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-all</artifactId>
-            <version>2.1</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -97,13 +86,11 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
-                    <!-- tag::testsysprops[] -->
-                    <systemPropertyVariables>
+                                        <systemPropertyVariables>
                         <http.port>${liberty.var.default.http.port}</http.port>
                         <context.root>${liberty.var.app.context.root}</context.root>
                     </systemPropertyVariables>
-                    <!-- end::testsysprops[] -->
-                </configuration>
+                                    </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
