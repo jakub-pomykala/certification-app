@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2022 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - Initial implementation
+ *******************************************************************************/
 package io.openliberty.exam.rest;
 
 import java.util.ArrayList;
@@ -16,45 +26,22 @@ import org.eclipse.microprofile.metrics.annotation.SimplyTimed;
 import io.openliberty.exam.rest.model.ArtistsList;
 import io.openliberty.exam.rest.model.SystemData;
 
-// tag::ApplicationScoped[]
 @ApplicationScoped
-// end::ApplicationScoped[]
 public class ArtistsManager {
 
     private List<SystemData> systems = Collections.synchronizedList(new ArrayList<>());
-    // tag::timedForGet[]
-    // tag::nameForGet[]
-    @Timed(name = "ArtistsProcessingTime",
-            // end::nameForGet[]
-            // tag::tagForGet[]
-            tags = {"method=get"},
-            // end::tagForGet[]
-            // tag::absoluteForGet[]
-            absolute = true,
-            // end::absoluteForGet[]
-            // tag::desForGet[]
-            description = "Time needed to process the Artists")
-    // end::desForGet[]
-    // end::timedForGet[]
-    // tag::get[]
-    public Properties get(String hostname) {
+        @Timed(name = "ArtistsProcessingTime",
+                                    tags = {"method=get"},
+                                    absolute = true,
+                                    description = "Time needed to process the Artists")
+                public Properties get(String hostname) {
         return null;
     }
-    // end::get[]
-
-    // tag::timedForAdd[]
-    // tag::nameForAdd[]
-    @SimplyTimed(name = "ArtistsAddingTime",
-            // end::nameForAdd[]
-            // tag::absoluteForAdd[]
-            absolute = true,
-            // end::absoluteForAdd[]
-            // tag::desForAdd[]
-            description = "Time needed to add system properties to the Artists")
-    // end::desForAdd[]
-    // end::timedForAdd[]
-    // tag::add[]
-    public void add(String hostname, Properties systemProps) {
+    
+            @SimplyTimed(name = "ArtistsAddingTime",
+                                    absolute = true,
+                                    description = "Time needed to add system properties to the Artists")
+                public void add(String hostname, Properties systemProps) {
         Properties props = new Properties();
         props.setProperty("os.name", systemProps.getProperty("os.name"));
         props.setProperty("user.name", systemProps.getProperty("user.name"));
