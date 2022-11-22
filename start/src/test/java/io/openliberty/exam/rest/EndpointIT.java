@@ -31,49 +31,42 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EndpointIT {
     private static final Jsonb JSONB = JsonbBuilder.create();
-        @Test
-        public void testGetProperties() {
-                String port = System.getProperty("http.port");
+
+    @Test
+    public void testGetProperties() {
+        String port = System.getProperty("http.port");
         String context = System.getProperty("context.root");
-                String url = "";
+        String url = "";
         if (context.equals("/") || context.isEmpty()) {
             url = "http://localhost:" + port + "/";
         } else {
             url = "http://localhost:" + port + context + "/";
         }
 
-                Client client = ClientBuilder.newClient();
-        
-                WebTarget target = client.target(url + "artists/properties");
-                        Response response;
+        Client client = ClientBuilder.newClient();
+
+        WebTarget target = client.target(url + "artists");
+        Response response;
         response = target.request().get();
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus(),
                 "Incorrect response code from " + url);
-        
-                String json = response.readEntity(String.class);
-        Properties sysProps = JSONB.fromJson(json, Properties.class);
-
-                assertEquals(System.getProperty("os.name"), sysProps.getProperty("os.name"),
-                "The system property for the local and remote JVM should match");
-                        response.close();
-        client.close();
     }
 
     @Test
-        public void testPost() throws FileNotFoundException {
-                String port = System.getProperty("http.port");
+    public void testPost() throws FileNotFoundException {
+        String port = System.getProperty("http.port");
         String context = System.getProperty("context.root");
-                String url = "";
+        String url = "";
         if (context.equals("/") || context.isEmpty()) {
             url = "http://localhost:" + port + "/";
         } else {
-            url = "http://localhost:" + port  + context + "/";
+            url = "http://localhost:" + port + context + "/";
         }
 
-                Client client = ClientBuilder.newClient();
-        
-                WebTarget target = client.target(url + "artists/systems/add");
-                
+        Client client = ClientBuilder.newClient();
+
+        WebTarget target = client.target(url + "artists/artist/");
+
         final String jsonFile = "/Users/jakub/Desktop/certification-app/start/src/test/java/io/openliberty/exam/rest/jsonTest.json";
 
         InputStream fis;
@@ -81,7 +74,7 @@ public class EndpointIT {
         JsonArray artist = Json.createReader(fis).readArray();
 
 
-        Response response = target.request().post(Entity.entity(artist,MediaType.APPLICATION_JSON));
+        Response response = target.request().post(Entity.entity(artist, MediaType.APPLICATION_JSON));
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus(),
                 "Incorrect response code from " + url);
 

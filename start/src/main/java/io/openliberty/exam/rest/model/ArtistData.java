@@ -8,12 +8,30 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
-package io.openliberty.exam.system;
+package io.openliberty.exam.rest.model;
 
-import jakarta.ws.rs.core.Application;
-import jakarta.ws.rs.ApplicationPath;
+public class ArtistData {
 
-@ApplicationPath("system")
-public class SystemApplication extends Application {
+    private int id;
+    private final String name;
 
+    public ArtistData(String name) {
+        this.name = name;
+    }
+
+    public ArtistData(int id, String name) {
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String name() {
+        return name;
+    }
 }

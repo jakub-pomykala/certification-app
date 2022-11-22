@@ -14,17 +14,17 @@ import java.util.List;
 
 public class ArtistsList {
 
-    private List<SystemData> systems;
+    private List<ArtistData> artists;
 
-    public ArtistsList(List<SystemData> systems) {
-        this.systems = systems;
+    public ArtistsList(List<ArtistData> systems) {
+        this.artists = systems;
     }
 
-    public List<SystemData> getSystems() {
-        return systems;
+    public List<ArtistData> getArtists() {
+        return artists;
     }
 
     public int getTotal() {
-        return systems.size();
+        return artists.size();
     }
 }

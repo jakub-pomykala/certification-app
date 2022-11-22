@@ -7,19 +7,10 @@ servers:
 - url: http://localhost:9080
 - url: https://localhost:9443
 paths:
-  /system/properties:
-    get:
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-  /system/systems:
+  /artists:
     get:
       summary: Display artists.
-      description: Returns the currently stored artists in the artists.json.
+      description: Returns the currently stored artists in the listOfArtists.
       operationId: getArtists
       responses:
         "200":
@@ -27,8 +18,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SystemData'
-  /system/systems/add:
+                $ref: '#/components/schemas/ArtistData'
+  /artists/artist:
     post:
       summary: Add a new artist.
       description: Adds a new artist to the list of artists
@@ -44,10 +35,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SystemData'
+                $ref: '#/components/schemas/ArtistData'
 components:
   schemas:
-    SystemData:
+    ArtistData:
       type: object
       properties:
         id:

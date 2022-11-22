@@ -45,7 +45,7 @@ public class MetricsIT {
     private static final String KEYSTORE_PATH = System.getProperty("user.dir")
             + "/target/liberty/wlp/usr/servers/"
             + "defaultServer/resources/security/key.p12";
-    private static final String SYSTEM_ENV_PATH =  System.getProperty("user.dir")
+    private static final String SYSTEM_ENV_PATH = System.getProperty("user.dir")
             + "/target/liberty/wlp/usr/servers/"
             + "defaultServer/server.env";
 
@@ -58,18 +58,18 @@ public class MetricsIT {
     private List<String> metrics;
     private Client client;
 
-    private final String INVENTORY_HOSTS = "artists/systems";
+    private final String ARTISTS_HOSTS = "artists";
     private final String METRICS_APPLICATION = "metrics";
 
-        @BeforeAll
-            public static void oneTimeSetup() throws Exception {
+    @BeforeAll
+    public static void oneTimeSetup() throws Exception {
         httpPort = System.getProperty("http.port");
         httpsPort = System.getProperty("https.port");
         baseHttpUrl = "http://localhost:9080/";
         baseHttpsUrl = "https://localhost:9443/";
         loadKeystore();
     }
-    
+
     private static void loadKeystore() throws Exception {
         Properties sysEnv = new Properties();
         sysEnv.load(new FileInputStream(SYSTEM_ENV_PATH));
@@ -78,58 +78,47 @@ public class MetricsIT {
         keystore.load(new FileInputStream(KEYSTORE_PATH), password);
     }
 
-        @BeforeEach
-            public void setup() {
+    @BeforeEach
+    public void setup() {
         client = ClientBuilder.newBuilder().trustStore(keystore).build();
     }
-    
-        @AfterEach
-            public void teardown() {
+
+    @AfterEach
+    public void teardown() {
         client.close();
     }
-    
-        @Test
-            @Order(1)
-            public void testPropertiesRequestTimeMetric() {
-        connectToEndpoint(baseHttpUrl + INVENTORY_HOSTS);
-        metrics = getMetrics();
-        for (String metric : metrics) {
-            if (metric.startsWith(
-                    "application_inventoryProcessingTime_rate_per_second")) {
-                float seconds = Float.parseFloat(metric.split(" ")[1]);
-                assertTrue(4 > seconds);
-            }
-        }
-    }
-    
-        @Test
-            @Order(2)
-            public void testInventoryAccessCountMetric() {
+
+    @Test
+    @Order(1)
+    public void testInventoryAccessCountMetric() {
         metrics = getMetrics();
         Map<String, Integer> accessCountsBefore = getIntMetrics(metrics,
-                "application_inventoryAccessCount_total");
-        connectToEndpoint(baseHttpUrl + INVENTORY_HOSTS);
+                "application_getArtistsCount_total");
+        connectToEndpoint(baseHttpUrl + ARTISTS_HOSTS);
         metrics = getMetrics();
         Map<String, Integer> accessCountsAfter = getIntMetrics(metrics,
-                "application_inventoryAccessCount_total");
+                "application_getArtistsCount_total");
         for (String key : accessCountsBefore.keySet()) {
             Integer accessCountBefore = accessCountsBefore.get(key);
             Integer accessCountAfter = accessCountsAfter.get(key);
             assertTrue(accessCountAfter > accessCountBefore);
         }
     }
-    
-        @Test
-            @Order(3)
-            public void testInventorySizeGaugeMetric() {
+
+    @Test
+    @Order(2)
+    public void testArtistAddingElapsedTime() {
+        connectToEndpoint(baseHttpUrl + ARTISTS_HOSTS);
         metrics = getMetrics();
-        Map<String, Integer> inventorySizeGauges = getIntMetrics(metrics,
-                "application_inventorySizeGauge");
-        for (Integer value : inventorySizeGauges.values()) {
-            assertTrue(1 <= value);
+        for (String metric : metrics) {
+            if (metric.startsWith(
+                    "application_ArtistAddingTime_elapsedTime_seconds")) {
+                float seconds = Float.parseFloat(metric.split(" ")[1]);
+                assertTrue(1 > seconds);
+            }
         }
     }
-        
+
     public void connectToEndpoint(String url) {
         Response response = this.getResponse(url);
         this.assertResponse(url, response);
