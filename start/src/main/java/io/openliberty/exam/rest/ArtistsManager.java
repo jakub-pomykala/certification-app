@@ -31,13 +31,13 @@ public class ArtistsManager {
 
     private List<SystemData> systems = Collections.synchronizedList(new ArrayList<>());
 
-        @Timed(name = "ArtistsProcessingTime",
-                                    tags = {"method=get"},
-                                    absolute = true,
-                                    description = "Time needed to process the Artists")
-                public Properties get(String hostname) {
-        return null;
-    }
+    @Timed(name = "ArtistsProcessingTime",
+                                tags = {"method=get"},
+                                absolute = true,
+                                description = "Time needed to process the Artists")
+    public Properties get(String hostname) {
+    return null;
+}
     
     @SimplyTimed(name = "ArtistsAddingTime",
                             absolute = true,
