@@ -12,6 +12,8 @@ package io.openliberty.exam.openapi;
 
 import io.restassured.RestAssured;
 import io.restassured.parsing.Parser;
+import io.restassured.response.ResponseBody;
+import io.restassured.specification.RequestSpecification;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.ws.rs.client.Client;
@@ -20,111 +22,82 @@ import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 import static io.restassured.RestAssured.get;
-import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 
 public class OpenApiIT {
 
     private static final Jsonb JSONB = JsonbBuilder.create();
 
+    String expected;
+    String port = System.getProperty("http.port");
+    String context = System.getProperty("context.root");
+    String url = "";
+
     @Test
-    public void testOpenAPI() throws FileNotFoundException {
-                String port = System.getProperty("http.port");
-        String context = System.getProperty("context.root");
-                String url = "";
+    public void testOpenAPI(){
         if (context.equals("/") || context.isEmpty()) {
             url = "http://localhost:" + port + "/";
         } else {
-                url = "http://localhost:" + port + context + "/";
+            url = "http://localhost:" + port + context + "/";
         }
 
-                Client client = ClientBuilder.newClient();
-        
-                WebTarget target = client.target(url + "openapi");
-                        Response response;
+        Client client = ClientBuilder.newClient();
+
+        WebTarget target = client.target(url + "openapi");
+        Response response;
         response = target.request().get();
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus(),
                 "Incorrect response code from " + url);
-        
-//        String output = response.readEntity(String.class);
-//
-//        final String file = "/Users/jakub/Desktop/certification-app/start/src/test/java/io/openliberty/exam/openapi/openAPIResponse.json";
-//
-//        InputStream fis;
-//        fis = new FileInputStream(file);
-//        JsonArray expected = Json.createReader(fis).readArray();
-//
+
         response.close();
         client.close();
     }
 
     @Test
-    public void testOpenAPIResponse() {
+    public void testOpenAPIResponse() throws FileNotFoundException {
 
-        RestAssured.registerParser("text/plain", Parser.HTML);
+        if (context.equals("/") || context.isEmpty()) {
+            url = "http://localhost:" + port + "/";
+        } else {
+            url = "http://localhost:" + port + context + "/";
+        }
 
-        get("http://localhost:9080/openapi").then().statusCode(200).assertThat()
-                .body(startsWith("---\n" +
-                        "openapi: 3.0.3\n" +
-                        "info:\n" +
-                        "  title: Generated API\n" +
-                        "  version: \"1.0\"\n" +
-                        "servers:\n" +
-                        "- url: http://localhost:9080\n" +
-                        "- url: https://localhost:9443\n" +
-                        "paths:\n" +
-                        "  /artists/properties:\n" +
-                        "    get:\n" +
-                        "      responses:\n" +
-                        "        \"200\":\n" +
-                        "          description: OK\n" +
-                        "          content:\n" +
-                        "            application/json:\n" +
-                        "              schema:\n" +
-                        "                type: object\n" +
-                        "  /artists/systems:\n" +
-                        "    get:\n" +
-                        "      summary: Display artists.\n" +
-                        "      description: Returns the currently stored artists in the artists.json.\n" +
-                        "      operationId: getArtists\n" +
-                        "      responses:\n" +
-                        "        \"200\":\n" +
-                        "          description: A list of all the artists and their information in the artists.json.\n" +
-                        "          content:\n" +
-                        "            application/json:\n" +
-                        "              schema:\n" +
-                        "                $ref: '#/components/schemas/SystemData'\n" +
-                        "  /artists/systems/add:\n" +
-                        "    post:\n" +
-                        "      summary: Add a new artist.\n" +
-                        "      description: Adds a new artist to the list of artists\n" +
-                        "      operationId: addArtist\n" +
-                        "      requestBody:\n" +
-                        "        content:\n" +
-                        "          application/json:\n" +
-                        "            schema:\n" +
-                        "              type: array\n" +
-                        "      responses:\n" +
-                        "        \"200\":\n" +
-                        "          description: Add a new artists to the list of artists\n" +
-                        "          content:\n" +
-                        "            application/json:\n" +
-                        "              schema:\n" +
-                        "                $ref: '#/components/schemas/SystemData'\n" +
-                        "components:\n" +
-                        "  schemas:\n" +
-                        "    SystemData:\n" +
-                        "      type: object\n" +
-                        "      properties:\n" +
-                        "        id:\n" +
-                        "          format: int32\n" +
-                        "          type: integer"));
+        RestAssured.baseURI = url;
+        RequestSpecification httpRequest = RestAssured.given();
+        io.restassured.response.Response response = httpRequest.get("/openapi");
+
+        ResponseBody body = response.getBody();
+
+        File APIExpected = new File("/Users/jakub/Desktop/certification-app/start/src/test/java/io/openliberty/exam/openapi/OpenApiTest.txt");
+
+        BufferedReader br = new BufferedReader(new FileReader(APIExpected));
+
+        try {
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+            }
+
+           expected = sb.toString();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        
+        assertEquals(expected, body.asString(),
+                "Incorrect response from " + url);
     }
-}
+    }

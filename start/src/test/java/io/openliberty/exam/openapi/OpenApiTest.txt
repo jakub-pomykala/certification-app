@@ -4,8 +4,8 @@ info:
   title: Generated API
   version: "1.0"
 servers:
-- url: http://localhost:9080/LibertyProject
-- url: https://localhost:9443/LibertyProject
+- url: http://localhost:9080
+- url: https://localhost:9443
 paths:
   /system/properties:
     get:
