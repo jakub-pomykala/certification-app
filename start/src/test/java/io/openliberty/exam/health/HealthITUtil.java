@@ -29,7 +29,7 @@ public class HealthITUtil {
             +  "inMaintenance\":true";
 
     static {
-        port = System.getProperty("default.http.port");
+        port = System.getProperty("http.port");;
         baseUrl = "http://localhost:" + port + "/";
     }
 
